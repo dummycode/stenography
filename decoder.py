@@ -20,9 +20,9 @@ class Decoder:
 
 
     def extract_bits(self, pixel):
-        r = int(bin(pixel[0]).replace("0b", "")[-2:] + "000000", 2)
-        g = int(bin(pixel[1]).replace("0b", "")[-2:] + "000000", 2)
-        b = int(bin(pixel[2]).replace("0b", "")[-2:] + "000000", 2)
+        r = int(bin(pixel[0]).replace("0b", "")[-1:] + "0000000", 2)
+        g = int(bin(pixel[1]).replace("0b", "")[-1:] + "0000000", 2)
+        b = int(bin(pixel[2]).replace("0b", "")[-1:] + "0000000", 2)
 
         return [r, g, b]
 

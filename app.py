@@ -7,7 +7,7 @@ from flask import Flask, jsonify, request, redirect, url_for, send_file
 from flask_cors import CORS
 
 from decoder import Decoder
-import encoder
+from encoder import Encoder
 
 from skimage.io import imsave
 
@@ -23,6 +23,25 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'my_secret_key')
 
 @app.route('/encode', methods=["POST"])
 def encode():
+    if ('base_image' not in request.files):
+        return jsonify("Error! No base image")
+
+    if ('secret_image' not in request.files):
+        return jsonify("Error! No secret image")
+
+    base_image = Image.open(request.files['base_image'])
+    secret_image = Image.open(request.files['secret_image'])
+
+    encoder = Encoder(base_image, secret_image)
+    encoded_image = encoder.encode()
+
+    file_object = io.BytesIO()
+    encoded_image.save(file_object, 'PNG')
+    file_object.seek(0)
+
+    return send_file(file_object, mimetype='image/png')
+
+
     return jsonify({
         'message': 'Hello, World!',
     })
