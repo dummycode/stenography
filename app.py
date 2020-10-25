@@ -1,9 +1,15 @@
 import os
-from flask import Flask, jsonify, request, redirect, url_for
+import io
+import numpy as np
+
+from PIL import Image
+from flask import Flask, jsonify, request, redirect, url_for, send_file
 from flask_cors import CORS
 
 from decoder import Decoder
 import encoder
+
+from skimage.io import imsave
 
 app = Flask(__name__)
 CORS(app)
@@ -26,11 +32,15 @@ def decode():
     if ('image' not in request.files):
         return jsonify("Error! No image")
 
-    data = request.files['file']
-    decoder = Decoder(data)
-    return jsonify({
-        'message': 'Hello, World!',
-    })
+    image = Image.open(request.files['image'])
+    decoder = Decoder(image)
+    decoded_image = decoder.decode()
+
+    file_object = io.BytesIO()
+    decoded_image.save(file_object, 'PNG')
+    file_object.seek(0)
+
+    return send_file(file_object, mimetype='image/png')
 
 @app.after_request
 def add_header(response):
