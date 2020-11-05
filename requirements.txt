@@ -1,10 +1,6 @@
 flask
 flask_cors
-requests
-shelves
-beautifulsoup4
 pillow
 numpy
 scikit-image
-
 gunicorn
