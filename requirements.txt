@@ -1,0 +1,9 @@
+flask
+flask_cors
+requests
+Shelves
+beautifulsoup4
+PIL
+numpy
+
+gunicorn
