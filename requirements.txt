@@ -1,9 +1,9 @@
 flask
 flask_cors
 requests
-Shelves
+shelves
 beautifulsoup4
-PIL
+pillow
 numpy
 
 gunicorn
